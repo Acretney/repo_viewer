@@ -26,6 +26,8 @@ class StarredReposRepository {
       int page) async {
     try {
       final remotePageItems = await _remoteService.getStarredReposPage(page);
+      //TODO remove
+      print('REMOTE PAGE ITEMS ${remotePageItems.toString()}');
       return right(await remotePageItems.when(
         // ^ NO CONNECTION CASE
         noConnection: () async => Fresh.no(
@@ -33,14 +35,21 @@ class StarredReposRepository {
           isNextPageAvailable: page < await _localService.getLocalPageCount(),
         ),
         // ^ NOT MODIFIED CASE
-        notModified: (maxPage) async => Fresh.yes(
-          await _localService.getPage(page).then((dtos) => dtos.toDomain()),
-          isNextPageAvailable: page < maxPage,
-        ),
+        notModified: (maxPage) async {
+          print('retrieving from local storage');
+          Fresh<List<GithubRepo>> result = Fresh.yes(
+            await _localService.getPage(page).then((dtos) => dtos.toDomain()),
+            isNextPageAvailable: page < maxPage,
+          );
+          print('Length is: ${result.entity}');
+          return result;
+        },
         // ^ NEW DATA CASE
         withNewData: (data, maxPage) async {
           // Saves data to local storage
+
           await _localService.upsertPage(data, page);
+
           // Returns new data as domain entities
           return Fresh.yes(data.toDomain(),
               isNextPageAvailable: page < maxPage);

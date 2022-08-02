@@ -1,7 +1,5 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-// ignore_for_file: non_constant_identifier_names
-
 part of 'github_headers.dart';
 
 // **************************************************************************
@@ -19,7 +17,7 @@ _$_GithubHeaders _$$_GithubHeadersFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$$_GithubHeadersToJson(_$_GithubHeaders instance) =>
     <String, dynamic>{
       'eTag': instance.eTag,
-      'link': instance.link,
+      'link': instance.link?.toJson(),
     };
 
 _$_PaginationLink _$$_PaginationLinkFromJson(Map<String, dynamic> json) =>

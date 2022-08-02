@@ -1,9 +1,9 @@
 // ignore_for_file: invalid_annotation_target
 
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:repo_viewer/github/core/4_infrastructure/user_dto.dart';
 
 import '../3_domain/github_repo.dart';
-import 'user_dto.dart';
 
 part 'github_repo_dto.freezed.dart';
 part 'github_repo_dto.g.dart';
@@ -41,9 +41,10 @@ class GithubRepoDTO with _$GithubRepoDTO {
 
   GithubRepo toDomain() {
     return GithubRepo(
-        owner: owner.toDomain(),
-        name: name,
-        description: description,
-        stargazersCount: stargazersCount);
+      owner: owner.toDomain(),
+      name: name,
+      description: description,
+      stargazersCount: stargazersCount,
+    );
   }
 }

@@ -29,23 +29,24 @@ class _SearchedReposPageState extends ConsumerState<SearchedReposPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text(widget.searchTerm), actions: [
-          IconButton(
-            icon: const Icon(MdiIcons.logoutVariant),
-            onPressed: () {
-              ref.read(authNotifierProvider.notifier).signOut();
-            },
-          ),
-        ]),
-        body: PaginatedReposListView(
-          paginatedReposNotifierProvider: searchedReposNotifierProvider,
-          getNextPage: (ref) {
-            ref
-                .read(searchedReposNotifierProvider.notifier)
-                .getNextSearchedReposPage(widget.searchTerm);
+      appBar: AppBar(title: Text(widget.searchTerm), actions: [
+        IconButton(
+          icon: const Icon(MdiIcons.logoutVariant),
+          onPressed: () {
+            ref.read(authNotifierProvider.notifier).signOut();
           },
-          noResultsMessage:
-              "This is all we could find for your search term. Really...",
-        ));
+        ),
+      ]),
+      body: PaginatedReposListView(
+        paginatedReposNotifierProvider: searchedReposNotifierProvider,
+        getNextPage: (ref) {
+          ref
+              .read(searchedReposNotifierProvider.notifier)
+              .getNextSearchedReposPage(widget.searchTerm);
+        },
+        noResultsMessage:
+            "This is all we could find for your search term. Really...",
+      ),
+    );
   }
 }

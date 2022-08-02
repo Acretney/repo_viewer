@@ -27,33 +27,34 @@ class _StarredReposPageState extends ConsumerState<StarredReposPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Starred Repos'),
-          actions: [
-            IconButton(
-              icon: const Icon(MdiIcons.logoutVariant),
-              onPressed: () {
-                ref.read(authNotifierProvider.notifier).signOut();
-              },
-            ),
-            IconButton(
-              icon: const Icon(MdiIcons.magnify),
-              onPressed: () {
-                AutoRouter.of(context)
-                    .push(SearchedReposRoute(searchTerm: 'flutter'));
-              },
-            ),
-          ],
-        ),
-        body: PaginatedReposListView(
-          paginatedReposNotifierProvider: starredReposNotifierProvider,
-          getNextPage: (ref) {
-            ref
-                .read(starredReposNotifierProvider.notifier)
-                .getNextStarredReposPage();
-          },
-          noResultsMessage:
-              "That's about everything we could find in your starred repos right now.",
-        ));
+      appBar: AppBar(
+        title: const Text('Starred Repos'),
+        actions: [
+          IconButton(
+            icon: const Icon(MdiIcons.logoutVariant),
+            onPressed: () {
+              ref.read(authNotifierProvider.notifier).signOut();
+            },
+          ),
+          IconButton(
+            icon: const Icon(MdiIcons.magnify),
+            onPressed: () {
+              AutoRouter.of(context)
+                  .push(SearchedReposRoute(searchTerm: 'flutter'));
+            },
+          ),
+        ],
+      ),
+      body: PaginatedReposListView(
+        paginatedReposNotifierProvider: starredReposNotifierProvider,
+        getNextPage: (ref) {
+          ref
+              .read(starredReposNotifierProvider.notifier)
+              .getNextStarredReposPage();
+        },
+        noResultsMessage:
+            "That's about everything we could find in your starred repos right now.",
+      ),
+    );
   }
 }

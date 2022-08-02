@@ -8,31 +8,37 @@ import 'package:repo_viewer/github/core/4_infrastructure/pagination_config.dart'
 
 part 'paginated_repos_notifier.freezed.dart';
 
-typedef RepositoryGetter
-    = Future<Either<GithubFailure, Fresh<List<GithubRepo>>>> Function(int page);
+// ^ ### PAGINATED_REPOS_STATE
 
-// The previously loaded repos are provided to the 'LoadInProgress' and 'loadFailure' states so this is not odd
 @freezed
 class PaginatedReposState with _$PaginatedReposState {
   const PaginatedReposState._();
-  // We provide an (empty) repos list to the initial state because we need a repos object in all 4 constructors to
-  // call it as myState.repos - repos would not be available if it was missing from one of the constructors
+
+  // ^ INITIAL
+  // We'll pass an empty value but myState.repos would not be available if it was missing from one of the constructors
   const factory PaginatedReposState.initial(Fresh<List<GithubRepo>> repos) =
       _Initial;
 
-  // ^ LOAD IN PROGRESS CASE
-  // We'll use items per page in our shimmer functionality so it knows how many loading indicators to render
+  // ^ LOAD IN PROGRESS
+  // itemsPerPage informs us how many loading indicators to render
   const factory PaginatedReposState.loadInProgress(
       Fresh<List<GithubRepo>> repos, int itemsPerPage) = _LoadInProgress;
 
-  // ^ LOAD SUCCESS CASE
+  // ^ LOAD SUCCESS
+  // The server (or local storage) will need to tell us if there is another page
   const factory PaginatedReposState.loadSuccess(Fresh<List<GithubRepo>> repos,
       {required bool isNextPageAvailable}) = _LoadSuccess;
 
-  // ^ LOAD FAILURE CASE
+  // ^ LOAD FAILURE
+  // We still need to return the existing repos
   const factory PaginatedReposState.loadFailure(
       Fresh<List<GithubRepo>> repos, GithubFailure failure) = _LoadFailure;
 }
+
+// ^ ### PAGINATED_REPOS_NOTIFIER
+
+typedef RepositoryGetter
+    = Future<Either<GithubFailure, Fresh<List<GithubRepo>>>> Function(int page);
 
 // ^ Facilitates calls to get more repos
 // ^ Instantiates and appends to a single list of Github repos
@@ -46,7 +52,7 @@ class PaginatedReposNotifier extends StateNotifier<PaginatedReposState> {
   // normally you shouldnt have mutable fields in a stateNotifier but it fits our use-case in this instance
   int _page = 1;
 
-  // RepositoryGetter is a typeDef of Future<Either<GithubFailure, Fresh<List<GithubRepo>>>> Function(int page);
+  // Child classes specify as an argument what repository to get the next page from
   @protected
   Future<void> getNextPage(RepositoryGetter getter) async {
     state = PaginatedReposState.loadInProgress(

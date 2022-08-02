@@ -11,17 +11,16 @@ class StarredReposLocalService {
   StarredReposLocalService(this._sembastDatabase);
 
   final SembastDatabase _sembastDatabase;
+  // This store type uses ints as its index and maps (json) as the data to be stored
   final _store = intMapStoreFactory.store('starredRepos');
 
   // Will either insert or update a page
   Future<void> upsertPage(List<GithubRepoDTO> dtos, int page) async {
     final sembastPage = page - 1;
-
-    // We are saying there will be 3 items on one page 0, 1, 2 || 3, 4, 5 || 6, 7, 8
     await _store
         .records(
           dtos.mapIndexed((index, _) =>
-              index + (PaginationConfig.itemsPerPage * sembastPage)),
+              index + PaginationConfig.itemsPerPage * sembastPage),
         )
         .put(_sembastDatabase.instance, dtos.map((e) => e.toJson()).toList());
   }
@@ -39,6 +38,7 @@ class StarredReposLocalService {
         offset: PaginationConfig.itemsPerPage * sembastPage,
       ),
     );
+
     return records.map((e) => GithubRepoDTO.fromJson(e.value)).toList();
   }
 

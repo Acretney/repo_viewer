@@ -16,9 +16,6 @@ class StarredReposRemoteService extends ReposRemoteService {
     GithubHeadersCache headersCache,
   ) : super(dio, headersCache);
 
-  // Remote response type will differ depending on whether there is an internet connect and if the content has
-  // changed. This will determine whether the data is taken from the API or local database. We always use DTO's
-  // as our return type
   Future<RemoteResponse<List<GithubRepoDTO>>> getStarredReposPage(
           int page) async =>
       super.getPage(
