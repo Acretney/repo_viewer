@@ -15,6 +15,7 @@ dependencies:
   auto_route: ^4.2.1 # Helps implement Navigator 2.0
   material_design_icons_flutter: ^5.0.6996 # Icons submit by the material flutter community
   flash: ^2.0.3+3 # Better looking alert popups 
+  material_floating_search_bar: ^0.3.7 # Better looking customizable search bar
 
   # ^ STATE MANAGEMENT PACKAGES
   flutter_hooks: ^0.18.0 # Simplifies stateful widgets

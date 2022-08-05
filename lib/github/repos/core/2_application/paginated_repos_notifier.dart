@@ -52,6 +52,12 @@ class PaginatedReposNotifier extends StateNotifier<PaginatedReposState> {
   // normally you shouldnt have mutable fields in a stateNotifier but it fits our use-case in this instance
   int _page = 1;
 
+  @protected
+  void resetState() {
+    _page = 1;
+    state = PaginatedReposState.initial(Fresh.yes([]));
+  }
+
   // Child classes specify as an argument what repository to get the next page from
   @protected
   Future<void> getNextPage(RepositoryGetter getter) async {

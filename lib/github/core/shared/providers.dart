@@ -6,6 +6,10 @@ import 'package:repo_viewer/github/repos/starred_repos/4_infrastructure/starred_
 import 'package:repo_viewer/github/repos/starred_repos/4_infrastructure/starred_repos_remote_service.dart';
 import 'package:repo_viewer/github/repos/starred_repos/4_infrastructure/starred_repos_repository.dart';
 
+import '../../detail/2_application/repo_detail_notifier.dart';
+import '../../detail/4_infrastructure/repo_detail_local_service.dart';
+import '../../detail/4_infrastructure/repo_detail_remote_service.dart';
+import '../../detail/4_infrastructure/repo_detail_repository.dart';
 import '../../repos/core/2_application/paginated_repos_notifier.dart';
 import '../../repos/searched_repos/2_application/searched_repos_notifier.dart';
 import '../../repos/searched_repos/4_infrastructure/searched_repos_remote_service.dart';
@@ -50,6 +54,36 @@ final searchedReposRepositoryProvider = Provider((ref) =>
 
 final searchedReposRemoteServiceProvider = Provider(
   (ref) => SearchedReposRemoteService(
+    ref.watch(dioProvider),
+    ref.watch(githubHeadersCacheProvider),
+  ),
+);
+
+// ^ REPO DETAIL PROVIDERS
+
+final repoDetailNotifierProvider =
+    StateNotifierProvider.autoDispose<RepoDetailNotifier, RepoDetailState>(
+  (ref) => RepoDetailNotifier(
+    ref.watch(repoDetailRepositoryProvider),
+  ),
+);
+
+final repoDetailRepositoryProvider = Provider(
+  (ref) => RepoDetailRepository(
+    ref.watch(repoDetailLocalServiceProvider),
+    ref.watch(repoDetailRemoteServiceProvider),
+  ),
+);
+
+final repoDetailLocalServiceProvider = Provider(
+  (ref) => RepoDetailLocalService(
+    ref.watch(sembastProvider),
+    ref.watch(githubHeadersCacheProvider),
+  ),
+);
+
+final repoDetailRemoteServiceProvider = Provider(
+  (ref) => RepoDetailRemoteService(
     ref.watch(dioProvider),
     ref.watch(githubHeadersCacheProvider),
   ),

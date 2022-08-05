@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import 'package:repo_viewer/core/1_presentation/toasts.dart';
 import '../../../core/1_presentation/no_results_display.dart';
 import '../2_application/paginated_repos_notifier.dart';
@@ -95,7 +96,14 @@ class _PaginatedListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Getting the height of the floating search bar to use in our padding
+    final fsbHeight =
+        context.findAncestorWidgetOfExactType<FloatingSearchBar>()?.height;
     return ListView.builder(
+      padding: fsbHeight == null
+          ? EdgeInsets.zero
+          : EdgeInsets.only(
+              top: fsbHeight + 8 + MediaQuery.of(context).padding.top),
       itemCount: state.map(
         initial: (_) => 0,
         // The items per page count will be rendered as shimmers
