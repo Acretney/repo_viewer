@@ -5,7 +5,6 @@
 
 import 'package:repo_viewer/core/4_infrastructure/sembast_database.dart';
 import 'package:repo_viewer/github/core/4_infrastructure/github_headers_cache.dart';
-import 'package:repo_viewer/github/detail/3_domain/github_repo_detail.dart';
 import 'package:sembast/sembast.dart';
 import 'package:sembast/timestamp.dart';
 

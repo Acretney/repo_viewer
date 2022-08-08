@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:repo_viewer/auth/shared/providers.dart';
 import 'package:repo_viewer/github/core/shared/providers.dart';
 import 'package:repo_viewer/search/1_presentation/search_bar.dart';
@@ -20,9 +19,6 @@ class _StarredReposPageState extends ConsumerState<StarredReposPage> {
   @override
   void initState() {
     super.initState();
-    // Future.microtask(() => ref
-    //     .read(starredReposNotifierProvider.notifier)
-    //     .getNextStarredReposPage());
     ref.read(starredReposNotifierProvider.notifier).getNextStarredReposPage();
   }
 
